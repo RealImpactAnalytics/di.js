@@ -244,6 +244,9 @@ class Injector {
 
       // Once all dependencies (promises) are resolved, instantiate.
       return Promise.all(args).then(function(args) {
+        if (injector._cache.has(token)) {
+          return injector._cache.get(token);
+        }
         try {
           instance = provider.create(args);
         } catch (e) {
