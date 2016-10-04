@@ -1,7 +1,6 @@
 import {ProvidePromise, InjectPromise, Inject, TransientScope} from '../src/annotations';
 import {Injector} from '../src/injector';
 
-
 class UserList {}
 
 // An async provider.
@@ -127,6 +126,61 @@ describe('async', function() {
     injector.getPromise(ChildUserController).then(function(childUserController) {
       expect(childUserController).toBeInstanceOf(ChildUserController);
       expect(childUserController.list).toBeInstanceOf(UserList);
+      done();
+    });
+  });
+
+  it('should cache promise dependecies', function (done) {
+    var countC = 0, countD = 0;
+
+    class A {}
+    class B1 {}
+    class B2 {}
+    class C {}
+    class D {}
+
+    @ProvidePromise(A)
+    @Inject(B1, B2)
+    function createA() {
+      return Promise.resolve();
+    }
+
+    @ProvidePromise(B1)
+    @Inject(C)
+    function createB1() {
+      return Promise.resolve();
+    }
+
+    @ProvidePromise(B2)
+    @Inject(C)
+    function createB2() {
+      return Promise.resolve();
+    }
+
+    @ProvidePromise(C)
+    @Inject(D)
+    function createC() {
+      countC++;
+      return Promise.resolve();
+    }
+
+    @ProvidePromise(D)
+    function createD() {
+      countD++;
+      return Promise.resolve();
+    }
+
+    var injector = new Injector([
+      createA,
+      createB1,
+      createB2,
+      createC,
+      createD
+    ]);
+
+    injector.getPromise(A).then(function () {
+      expect(countC).toBe(1);
+      expect(countD).toBe(1);
       done();
     });
   });
