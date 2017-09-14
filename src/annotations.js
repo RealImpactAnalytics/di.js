@@ -1,4 +1,4 @@
-import {isFunction} from './util';
+const {isFunction} = require('./util');
 
 // This module contains:
 // - built-in annotation classes
@@ -148,8 +148,7 @@ function readAnnotations(fn) {
   return collectedAnnotations;
 }
 
-
-export {
+module.exports = {
   annotate,
   hasAnnotation,
   readAnnotations,

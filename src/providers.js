@@ -1,17 +1,18 @@
-import {
-  ClassProvider as ClassProviderAnnotation,
-  FactoryProvider as FactoryProviderAnnotation,
-  SuperConstructor as SuperConstructorAnnotation,
+const {
+  ClassProvider: ClassProviderAnnotation,
+  FactoryProvider: FactoryProviderAnnotation,
+  SuperConstructor: SuperConstructorAnnotation,
   readAnnotations,
   hasAnnotation
-} from './annotations';
-import {isFunction, isObject, toString, isUpperCase, ownKeys} from './util';
+} = require('./annotations');
+
+const {isFunction, isObject, toString, isUpperCase, ownKeys} = require('./util');
 
 function isClass(clsOrFunction) {
 
   if (hasAnnotation(clsOrFunction, ClassProviderAnnotation)) {
     return true
-  } 
+  }
   else if(hasAnnotation(clsOrFunction, FactoryProviderAnnotation)) {
     return false
   }
@@ -147,10 +148,12 @@ class FactoryProvider {
 }
 
 
-export function createProviderFromFnOrClass(fnOrClass, annotations) {
-  if (isClass(fnOrClass)) {
-    return new ClassProvider(fnOrClass, annotations.params, annotations.provide.isPromise);
-  }
+module.exports = {
+  createProviderFromFnOrClass: (fnOrClass, annotations) => {
+    if (isClass(fnOrClass)) {
+      return new ClassProvider(fnOrClass, annotations.params, annotations.provide.isPromise);
+    }
 
-  return new FactoryProvider(fnOrClass, annotations.params, annotations.provide.isPromise);
-}
+    return new FactoryProvider(fnOrClass, annotations.params, annotations.provide.isPromise);
+  }
+};

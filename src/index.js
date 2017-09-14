@@ -1,7 +1,7 @@
 // PUBLIC API
 
-export {Injector} from './injector';
-export {
+const {Injector} = require('./injector');
+const {
   annotate,
   Inject,
   InjectLazy,
@@ -12,4 +12,18 @@ export {
   TransientScope,
   ClassProvider,
   FactoryProvider
-} from './annotations';
+} = require('./annotations');
+
+module.exports = {
+  Injector,
+  annotate,
+  Inject,
+  InjectLazy,
+  InjectPromise,
+  Provide,
+  ProvidePromise,
+  SuperConstructor,
+  TransientScope,
+  ClassProvider,
+  FactoryProvider
+};

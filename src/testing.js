@@ -1,8 +1,7 @@
-import {Injector} from './injector';
-import {Inject, annotate, readAnnotations} from './annotations';
-import {isFunction} from './util';
-import {createProviderFromFnOrClass} from './providers';
-
+const {Injector} = require('./injector');
+const {Inject, annotate, readAnnotations} = require('./annotations');
+const {isFunction} = require('./util');
+const {createProviderFromFnOrClass} = require ('./providers');
 
 var currentSpec = null;
 beforeEach(function() {
@@ -91,6 +90,6 @@ function inject(...params) {
   return isRunning() ? run() : run;
 }
 
-export {
+module.exports = {
   use, inject
 };

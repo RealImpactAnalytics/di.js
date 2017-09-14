@@ -1,13 +1,13 @@
-import {
+const {
   annotate,
   readAnnotations,
   hasAnnotation,
-  Provide as ProvideAnnotation,
-  TransientScope as TransientScopeAnnotation
-} from './annotations';
-import {isFunction, toString} from './util';
-import {profileInjector} from './profiler';
-import {createProviderFromFnOrClass} from './providers';
+  Provide: ProvideAnnotation,
+  TransientScope:TransientScopeAnnotation
+} = require('./annotations');
+const {isFunction, toString} = require('./util');
+const {profileInjector} = require('./profiler');
+const {createProviderFromFnOrClass} = require('./providers');
 
 
 function constructResolvingMessage(resolving, token) {
@@ -320,4 +320,4 @@ class Injector {
 }
 
 
-export {Injector};
+module.exports = {Injector};

@@ -1,4 +1,4 @@
-import {toString} from './util';
+const {toString} = require('./util');
 
 
 var IS_DEBUG = false;
@@ -68,18 +68,19 @@ function serializeInjector(injector, tokens, Injector) {
   return serializedInjector;
 }
 
+module.exports = {
+  profileInjector: (injector, Injector) => {
+    if (!IS_DEBUG) {
+      return;
+    }
 
-export function profileInjector(injector, Injector) {
-  if (!IS_DEBUG) {
-    return;
+    if (!_global.__di_dump__) {
+      _global.__di_dump__ = {
+        injectors: [],
+        tokens: new Map()
+      };
+    }
+
+    _global.__di_dump__.injectors.push(serializeInjector(injector, _global.__di_dump__.tokens, Injector));
   }
-
-  if (!_global.__di_dump__) {
-    _global.__di_dump__ = {
-      injectors: [],
-      tokens: new Map()
-    };
-  }
-
-  _global.__di_dump__.injectors.push(serializeInjector(injector, _global.__di_dump__.tokens, Injector));
-}
+};

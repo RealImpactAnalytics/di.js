@@ -36,8 +36,7 @@ var ownKeys = (this.Reflect && Reflect.ownKeys ? Reflect.ownKeys : function ownK
   return keys;
 });
 
-
-export {
+module.exports = {
   isUpperCase,
   isFunction,
   isObject,
